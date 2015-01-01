@@ -8,7 +8,7 @@
 
 
 /**
- * DeviceInfo 實作提供設備資訊的類別 
+ * DeviceInfo 實作提供設備資訊的類別
  *
  * @author DDT
  * @copyright Copyright 2012 SUNNET LIMITED
@@ -19,7 +19,7 @@
 
 /**
  * 取得設備ID
- * 
+ *
  * @return NSString id
  */
 + (NSString*)getDeviceId
@@ -36,16 +36,16 @@
         CFRelease(uuidRef);
         deviceUuid = [NSString stringWithFormat:@"%@", cfUuid];
         CFRelease(cfUuid);
-        
+
         [defaults setObject:deviceUuid forKey:@"deviceUuid"];
     }
-    
+
     return deviceUuid;
 }
 
 /**
  * 取得設備與APP相關資訊
- * 
+ *
  * @return NSString id
  */
 + (NSMutableDictionary*)getDeviceInfo
@@ -53,8 +53,8 @@
     // Get Bundle Info for Remote Registration (handy if you have more than one app)
     NSString *appName = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleDisplayName"];
     NSString *appVersion = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
-    
-    
+
+
     NSUInteger rntypes;
     if ([self isIOS8OrHigher]) {
         rntypes = [[UIApplication sharedApplication] currentUserNotificationSettings].types;
@@ -62,7 +62,7 @@
         rntypes = [[UIApplication sharedApplication] enabledRemoteNotificationTypes];
     }
 
-    
+
     // Set the defaults to disabled unless we find otherwise...
     NSString *pushBadge = (rntypes & UIRemoteNotificationTypeBadge) ? @"ON" : @"OFF";
     NSString *pushAlert = (rntypes & UIRemoteNotificationTypeAlert) ? @"ON" : @"OFF";
@@ -74,16 +74,16 @@
     NSString *deviceName = [dev.name stringByAddingPercentEscapesUsingEncoding: NSUTF8StringEncoding];
     NSString *deviceModel = [dev.model stringByAddingPercentEscapesUsingEncoding: NSUTF8StringEncoding];
     NSString *deviceSystemVersion = dev.systemVersion;
-    
+
     NSString *environment;
     #ifdef DEBUG
         environment = @"SANDBOX";
     #else
         environment = @"PRODUCTION";
     #endif
-    
+
     //回傳Dictionary
-    NSMutableDictionary* info = [[[NSMutableDictionary alloc] initWithObjectsAndKeys:
+    NSMutableDictionary* info = [[NSMutableDictionary alloc] initWithObjectsAndKeys:
         @"",@"app_uuid",
         appName, @"appname",
         appVersion, @"appversion",
@@ -97,8 +97,8 @@
         pushAlert, @"pushalert",
         pushSound, @"pushsound",
         environment, @"environment",
-        nil] autorelease];
-    
+        nil];
+
     return info;
 }
 
